@@ -3,6 +3,20 @@
     <!-- Base application theme. -->
     <style name="Theme.MyApp" parent="Theme.MaterialComponents.DayNight">
         <!-- Customize your theme here. -->
+        <item name="shapeAppearanceMediumComponent">
+            @style/ShapeAppearance.MaterialComponents.MediumComponent
+        </item>
+        <item name="shapeAppearanceSmallComponent">
+            @style/ShapeAppearance.MaterialComponents.SmallComponent
+        </item>
     </style>
 
+    <style name="shapeAppearanceMediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">24dp</item>
+    </style>
+    <style name="shapeAppearanceSmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
 </resources>

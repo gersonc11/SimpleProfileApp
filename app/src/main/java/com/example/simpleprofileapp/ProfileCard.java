@@ -1,6 +1,8 @@
 package com.example.simpleprofileapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,23 +12,33 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.Gson;
+
 public class ProfileCard extends AppCompatActivity {
 
     ImageView backButton;
     TextView textView;
+    public final static String MyPREFERENCES = "MyPREFERENCES";
+
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        Intent intent = getIntent();
-        String name = intent.getStringExtra("name");
-        String user = intent.getStringExtra("user");
-        String password = intent.getStringExtra("password");
-        String description = intent.getStringExtra("description");
+        Profile userProfile = (Profile) getIntent().getSerializableExtra(Constants.USER_PROFILE_KEY);
 
-        Toast.makeText(ProfileCard.this, "wow" , Toast.LENGTH_SHORT).show();
+        sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
+        String jsonString = sharedPreferences.getString("profileJson", "");
+        Profile profile = new Gson().fromJson(jsonString, Profile.class);
+
+        Toast.makeText(ProfileCard.this, " " + jsonString, Toast.LENGTH_LONG ).show();
+
+
+
+        Toast.makeText(ProfileCard.this, "wow", Toast.LENGTH_SHORT).show();
 
         textView = findViewById(R.id.text_view);
         backButton = findViewById(R.id.back_button);
@@ -37,10 +49,12 @@ public class ProfileCard extends AppCompatActivity {
                 Intent intent = new Intent(getBaseContext(), MainActivity.class);
                 startActivity(intent);
             }
-            });
+        });
 
 
-        textView.setText("Name " + name + "\n User Name: "+ user + "\n Password" + password + "\n Description: " + description);
+        if (userProfile != null) {
+            textView.setText("Name: " + userProfile.getName() + "\n Username: " + userProfile.getUserName() + "\n Password: " + userProfile.getPassword() + "\n Description: " + userProfile.getDescription());
+        }
     }
 
     @Override
